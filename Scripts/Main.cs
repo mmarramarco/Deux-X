@@ -41,11 +41,8 @@ public class Main : TileMap
 	private void GenerateCell(Vector2 newCellPosition)
 	{
 		var cell = random.Next(0, 2);
-		if(cell == 1)
-		{
-			SetCellv(newCellPosition, 0);
-			UpdateBitmaskArea(newCellPosition);
-		}
+		SetCellv(newCellPosition, cell);
+		UpdateBitmaskArea(newCellPosition);
 	}
 
 	private void GetAllNodeOnce()
