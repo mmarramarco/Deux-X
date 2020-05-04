@@ -19,8 +19,8 @@ public class Main : TileMap
 	private void GenerateStartingIsland()
 	{
 		Clear();
-		var screenCenter = GetViewport().Size / 2;
-		GenerateIsland(screenCenter);
+		var startringPoint = new Vector2(0, 0);
+		GenerateIsland(startringPoint);
 	}
 
 	private void GenerateIsland(Vector2 newIslandCenter)
