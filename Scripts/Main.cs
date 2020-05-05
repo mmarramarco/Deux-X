@@ -8,8 +8,7 @@ public class Main : TileMap
 
 	private Random random;
 	private Camera2D camera;
-	private TileMap buildingLayer;
-	private CityHall ghost;
+	private Building buildingToPlace = null;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,7 +25,17 @@ public class Main : TileMap
 		{
 			GenerateStartingIsland();
 		}
-		ProcessMouse();
+
+		if (Input.IsActionJustPressed("key_z"))
+		{
+			buildingToPlace = Extensions.SmartLoader<CityHall>("res://Scenes/CityHall.tscn");
+			AddChild(buildingToPlace);
+		}
+
+		if (buildingToPlace != null)
+		{
+			ProcessMouse();
+		}
 	}
 
 	private void ProcessMouse()
@@ -34,18 +43,20 @@ public class Main : TileMap
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
 		var tilePosition = WorldToMap(position);
-		ghost.Position = MapToWorld(tilePosition) + new Vector2(8f, 8f); // building offset, TODO : make it prettier, and per building.
+		var realPosition = MapToWorld(tilePosition) + new Vector2(8f, 8f); // building offset, TODO : make it prettier, and per building.
+		buildingToPlace.Position = realPosition;
+
 		if (Input.IsActionJustPressed("ui_right_click"))
 		{
-			tilePosition += new Vector2(-1, -1); // building offset, TODO : make it prettier, and per building.
-			GenerateBuilding(tilePosition);
+			GenerateBuilding(realPosition);
 		}
 	}
 
-
-	private void GenerateBuilding(Vector2 tilePosition)
+	// TODO : should take a Building in parameters too and should be generalized for every biulding.
+	private void GenerateBuilding(Vector2 realPosition)
 	{
-		buildingLayer.SetCellv(tilePosition, 0);
+		buildingToPlace.ChangeTransparency(1);
+		buildingToPlace = null;
 	}
 
 	private void GenerateStartingIsland()
@@ -80,8 +91,6 @@ public class Main : TileMap
 	private void GetAllNodeOnce()
 	{
 		camera = GetNode<Camera2D>("Camera2D");
-		buildingLayer = GetNode<TileMap>("Buildings");
-		ghost = Extensions.SmartLoader<CityHall>("res://Scenes/CityHall.tscn");
-		AddChild(ghost);
 	}
+
 }
