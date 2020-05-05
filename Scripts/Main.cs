@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class Main : TileMap
 {
@@ -9,6 +11,10 @@ public class Main : TileMap
 	private Random random;
 	private Camera2D camera;
 	private Building buildingToPlace = null;
+	private bool canBuildHere = true;
+
+	[Signal]
+	private delegate void ShowBuildingSignal(bool show);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,9 +32,19 @@ public class Main : TileMap
 			GenerateStartingIsland();
 		}
 
-		if (Input.IsActionJustPressed("key_z"))
+		if (Input.IsActionJustPressed("tab_key"))
+		{
+			EmitSignal(nameof(ShowBuildingSignal), false);
+		}
+		if (Input.IsActionJustReleased("tab_key"))
+		{
+			EmitSignal(nameof(ShowBuildingSignal), true);
+		}
+
+		if (Input.IsActionJustPressed("key_z") && buildingToPlace == null)
 		{
 			buildingToPlace = Extensions.SmartLoader<CityHall>("res://Scenes/CityHall.tscn");
+			buildingToPlace.Initialize();
 			AddChild(buildingToPlace);
 		}
 
@@ -46,17 +62,38 @@ public class Main : TileMap
 		var realPosition = MapToWorld(tilePosition) + new Vector2(8f, 8f); // building offset, TODO : make it prettier, and per building.
 		buildingToPlace.Position = realPosition;
 
-		if (Input.IsActionJustPressed("ui_right_click"))
+		if (canBuildHere)
 		{
-			GenerateBuilding(realPosition);
+			if (Input.IsActionJustPressed("ui_right_click"))
+			{
+				GenerateBuilding();
+			}
 		}
 	}
 
-	// TODO : should take a Building in parameters too and should be generalized for every biulding.
-	private void GenerateBuilding(Vector2 realPosition)
+	private void GenerateBuilding()
 	{
+		Connect(nameof(ShowBuildingSignal), buildingToPlace, "ShowBuilding");
+		buildingToPlace.Connect("CanPlaceBuildingSignal", this, nameof(CanPlaceBuilding));
 		buildingToPlace.ChangeTransparency(1);
 		buildingToPlace = null;
+	}
+
+	private List<int> collidingWithAreaId = new List<int>();
+
+	private void CanPlaceBuilding(bool canPlace, int id)
+	{
+		if (canPlace)
+		{
+			collidingWithAreaId.Remove(id);
+		}
+		else
+		{
+			collidingWithAreaId.Add(id);
+		}
+		canBuildHere = collidingWithAreaId.Count == 0;
+		GD.Print($"Can place : {canBuildHere}, {collidingWithAreaId.Count}, {collidingWithAreaId}");
+		buildingToPlace.UpdateColor(canBuildHere);
 	}
 
 	private void GenerateStartingIsland()

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
 
@@ -25,6 +26,17 @@ public static class Extensions
             GD.Print($"Exception while smart loading a scene : {exception.Message}");
             throw exception;
         }
+    }
+
+    /// <summary>
+    /// A background loader.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public static async Task<T> BackGroundLoader<T>(string path) where T : Node
+    {
+        return await Task.Run(() => SmartLoader<T>(path)).ConfigureAwait(false);
     }
 
     /// <summary>
