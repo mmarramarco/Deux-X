@@ -1,0 +1,5 @@
+C:\Users\marra\source\repos\DeuxX\.mono\temp\bin\Debug\DeuxX.dll
+C:\Users\marra\source\repos\DeuxX\.mono\temp\bin\Debug\DeuxX.pdb
+C:\Users\marra\source\repos\DeuxX\.mono\temp\obj\Debug\DeuxX.csproj.CoreCompileInputs.cache
+C:\Users\marra\source\repos\DeuxX\.mono\temp\obj\Debug\DeuxX.dll
+C:\Users\marra\source\repos\DeuxX\.mono\temp\obj\Debug\DeuxX.pdb
