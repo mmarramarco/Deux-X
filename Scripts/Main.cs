@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using DeuxX.Scripts;
 
 public class Main : TileMap
 {
