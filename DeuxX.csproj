@@ -58,8 +58,8 @@
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\Recipe.cs" />
     <Compile Include="Scripts\Recipe_Dic.cs" />
-    <Compile Include="Scripts\Recipe_Tree.cs" />
     <Compile Include="Scripts\Research.cs" />
+    <Compile Include="Scripts\Researches.cs" />
     <Compile Include="Scripts\Resources.cs" />
     <Compile Include="Scripts\States\MouseState.cs" />
   </ItemGroup>
