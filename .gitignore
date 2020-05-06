@@ -10,7 +10,6 @@ export_presets.cfg
 
 # Mono-specific ignores
 .mono/temp/
-!.mono/assemblies/
 
 # End of https://www.gitignore.io/api/godot
 
@@ -50,6 +49,9 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+
+!.mono/assemblies/Debug/
+!.mono/assemblies/Release/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
