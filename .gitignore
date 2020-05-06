@@ -9,8 +9,8 @@ export.cfg
 export_presets.cfg
 
 # Mono-specific ignores
-.mono/
-!.mono/assemblies/**
+.mono/temp/
+!.mono/assemblies/
 
 # End of https://www.gitignore.io/api/godot
 
