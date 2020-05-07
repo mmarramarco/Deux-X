@@ -13,6 +13,7 @@ public class HUD : Control
     {
         hBoxContainer = GetNode<HBoxContainer>("HBoxContainer");
         CreateButton(BuildingIds.CityHall);
+        CreateButton(BuildingIds.Unknown);
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
