@@ -38,6 +38,7 @@ public abstract class Building : Area2D
                     if (CanEvolve() && (level < MaxLevel))
                     {
                         sprite.Frame += 2;
+                        level++;
                     }
                 }
             }

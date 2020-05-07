@@ -16,8 +16,7 @@ public static class Extensions
     {
         try
         {
-            var resource = ResourceLoader.Load(path);
-            var packedScene = (PackedScene)resource;
+            var packedScene = ResourceLoader.Load<PackedScene>(path);
             var instance = (T)packedScene.Instance();
             return instance;
         }
