@@ -1,5 +1,5 @@
 public enum BuildingIds
 {
-    Unkown = 0,
+    Unknown = 0,
     CityHall = 1,
 }
