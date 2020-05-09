@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Godot;
 using Godot.Collections;
@@ -12,12 +14,12 @@ public static class Extensions
     /// <typeparam name="T">The type to return. T must inherit node.</typeparam>
     /// <param name="path">The path to load.</param>
     /// <returns></returns>
-    public static T SmartLoader<T>(string path) where T : Node
+    public static T SmartSceneLoader<T>(string path) where T : Node
     {
         try
         {
             var packedScene = ResourceLoader.Load<PackedScene>(path);
-            var instance = (T)packedScene.Instance();
+            var instance = packedScene.Instance() as T;
             return instance;
         }
         catch (Exception exception)
@@ -35,7 +37,7 @@ public static class Extensions
     /// <returns></returns>
     public static async Task<T> BackGroundLoader<T>(string path) where T : Node
     {
-        return await Task.Run(() => SmartLoader<T>(path)).ConfigureAwait(false);
+        return await Task.Run(() => SmartSceneLoader<T>(path)).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -58,4 +60,22 @@ public static class Extensions
 
         return result;
     }
+
+    /// <summary>
+    /// Not sure if it works. Awaits for a node child of <paramref name="parent"/> to be ready, then execute the <paramref name="action"/> method.
+    /// </summary>
+    /// <param name="parent">The parent node.</param>
+    /// <param name="nodeToAwait">The node to await.</param>
+    /// <param name="action">The action to execute once <paramref name="nodeToAwait"/>is ready.</param>
+    public static void AwaitForNodeToBeReady(this Node parent, Node nodeToAwait, Action action)
+    {
+        var result = Task.Run(() => AwaitForNodeToBeReadyAsync(parent, nodeToAwait, action));
+    }
+
+    private static async Task AwaitForNodeToBeReadyAsync(this Node parent, Node nodeToAwait, Action action)
+    {
+        GD.Print($"Awaiting for node {nodeToAwait.Name} to be ready, child of {parent.Name}.");
+        await parent.ToSignal(nodeToAwait, "ready");
+        action.Invoke();
+    } 
 }

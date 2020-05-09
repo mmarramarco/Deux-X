@@ -8,10 +8,15 @@ public class Main : TileMap
 	[Export]
 	public int IslandSize = 40;
 
+	public List<Building> Buildings = new List<Building>();
+
 	private Random random;
 	private Camera2D camera;
 	private Building buildingToPlace = null;
 	private bool canBuildHere = true;
+	private List<int> collidingWithAreaId = new List<int>();
+	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
+	private HUD hud;
 
 	[Signal]
 	private delegate void ShowBuildingSignal(bool show);
@@ -22,6 +27,8 @@ public class Main : TileMap
 		GetAllNodeOnce();
 		random = new Random();
 		GenerateStartingIsland();
+		hud = GetNode<HUD>("CanvasLayer/HUD");
+		hud.Connect("SwitchToUpgradeModeSignal", this, nameof(SwitchToUpgradeMode));
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,18 +50,37 @@ public class Main : TileMap
 
 		if (Input.IsActionJustPressed("key_z") && buildingToPlace == null)
 		{
-			buildingToPlace = Extensions.SmartLoader<CityHall>("res://Scenes/CityHall.tscn");
+			buildingToPlace = Extensions.SmartSceneLoader<CityHall>("res://Scenes/CityHall.tscn");
 			buildingToPlace.Initialize();
 			AddChild(buildingToPlace);
+			currentMode = ManagementMode.BuildingMode; 
 		}
 
-		if (buildingToPlace != null)
+		switch (currentMode)
 		{
-			ProcessMouse();
+			case ManagementMode.BuildingMode:
+				BuildingMode();
+				break;
+			default:
+				break;
+		}
+
+		if (Input.IsActionJustPressed("ui_right_click"))
+		{
+			ResetBuildingMode(removeChild: true);
 		}
 	}
 
-	private void ProcessMouse()
+	private void SwitchToUpgradeMode(bool toggle)
+	{
+		GD.Print($"Switched to upgrade mode : {toggle}");
+		foreach(var building in Buildings)
+		{
+			building.SwitchToUpgradeMode(toggle);
+		}
+	}
+
+	private void BuildingMode()
 	{
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
@@ -64,7 +90,7 @@ public class Main : TileMap
 
 		if (canBuildHere)
 		{
-			if (Input.IsActionJustPressed("ui_right_click"))
+			if (Input.IsActionJustPressed("ui_left_click"))
 			{
 				GenerateBuilding();
 			}
@@ -76,10 +102,19 @@ public class Main : TileMap
 		Connect(nameof(ShowBuildingSignal), buildingToPlace, "ShowBuilding");
 		buildingToPlace.Connect("CanPlaceBuildingSignal", this, nameof(CanPlaceBuilding));
 		buildingToPlace.ChangeTransparency(1);
-		buildingToPlace = null;
+		Buildings.Add(buildingToPlace);
+		ResetBuildingMode();
 	}
 
-	private List<int> collidingWithAreaId = new List<int>();
+	private void ResetBuildingMode(bool removeChild = false)
+	{
+		if (removeChild)
+		{
+			RemoveChild(buildingToPlace);
+		}
+		buildingToPlace = null;
+		currentMode = ManagementMode.CameraHandlingMode;
+	}
 
 	private void CanPlaceBuilding(bool canPlace, int id)
 	{
@@ -92,8 +127,14 @@ public class Main : TileMap
 			collidingWithAreaId.Add(id);
 		}
 		canBuildHere = collidingWithAreaId.Count == 0;
-		GD.Print($"Can place : {canBuildHere}, {collidingWithAreaId.Count}, {collidingWithAreaId}");
-		buildingToPlace.UpdateColor(canBuildHere);
+		if (canBuildHere)
+		{
+			buildingToPlace.UpdateColorToRed();
+		}
+		else
+		{
+			buildingToPlace.ResetColor();
+		}
 	}
 
 	private void GenerateStartingIsland()
