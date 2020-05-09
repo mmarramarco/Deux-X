@@ -32,7 +32,6 @@ public class CameraHandler : Camera2D
                         break;
                     case ButtonList.Left:
                         currentState = MouseState.Clicking;
-                        GD.Print("Clicking !");
                         break;
                     default:
                         break;
@@ -42,7 +41,6 @@ public class CameraHandler : Camera2D
             if (mouseEvent.IsActionReleased("ui_left_click"))
             {
                 currentState = MouseState.Released;
-                GD.Print("Releasing");
             }
         }
 
@@ -50,7 +48,6 @@ public class CameraHandler : Camera2D
         {
             if(currentState == MouseState.Clicking)
             {
-                GD.Print("Dragging.");
                 Position -= mouseMotion.Relative;
             }
         }
