@@ -59,6 +59,7 @@
     <Compile Include="Scripts\CityHall.cs" />
     <Compile Include="Scripts\Constants.cs" />
     <Compile Include="Scripts\Enumerations\BuildingIds.cs" />
+    <Compile Include="Scripts\Enumerations\ManagementMode.cs" />
     <Compile Include="Scripts\Extensions.cs" />
     <Compile Include="Scripts\HUD.cs" />
     <Compile Include="Scripts\Main.cs" />

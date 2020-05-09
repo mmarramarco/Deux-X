@@ -13,7 +13,8 @@ public abstract class Building : Area2D
     private int level = 1;
     //private Recipe recipeForNextLevel;
     private Sprite sprite;
-    private Color previousColor;
+    private Color defaultColor;
+    private bool upgradeMode = false;
 
     [Signal]
     private delegate void CanPlaceBuildingSignal(bool canPlace, int id);
@@ -24,7 +25,8 @@ public abstract class Building : Area2D
         Connect("area_exited", this, nameof(OnAreaExited));
         Connect("input_event", this, nameof(OnInputEven));
         sprite = GetNode<Sprite>("Sprite2D");
-        previousColor = sprite.Modulate;
+        defaultColor = sprite.Modulate;
+        sprite.Modulate = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0.75f);
     }
 
     public void OnInputEven(Viewport viewport, InputEvent @event, int shapeIndex)
@@ -33,16 +35,23 @@ public abstract class Building : Area2D
         {
             if (mouseEvent.IsPressed())
             {
-                if ((ButtonList)mouseEvent.ButtonIndex == ButtonList.Left)
+                if ((ButtonList)mouseEvent.ButtonIndex == ButtonList.Left && 
+                    CanUpgrade() &&
+                    upgradeMode)
                 {
-                    if (CanEvolve() && (level < MaxLevel))
-                    {
-                        sprite.Frame += 2;
-                        level++;
-                    }
+                    Upgrade();
                 }
             }
         }
+    }
+
+    private void Upgrade()
+    {
+        sprite.Frame += 2;
+        level++;
+
+        // we just reset the color of the current upgradable building.
+        SwitchToUpgradeMode(true);
     }
 
     private void OnAreaEntered(Area2D area)
@@ -63,13 +72,33 @@ public abstract class Building : Area2D
 
     public void ShowBuilding(bool show)
     {
-        var frame = show ? 0 : 1;
-        sprite.Frame = frame;
+        var frame = show ? -1 : 1;
+        sprite.Frame += frame;
     }
 
-    public bool CanEvolve()
+    public bool CanUpgrade()
     {
-        return true;
+        return level < MaxLevel;
+    }
+
+    internal void SwitchToUpgradeMode(bool toggle)
+    {
+        upgradeMode = toggle;
+        if (upgradeMode)
+        {
+            if (CanUpgrade())
+            {
+                UpdateColorToGreen();
+            }
+            else
+            {
+                UpdateColorToRed();
+            }
+        }
+        else
+        {
+            ResetColor();
+        }
     }
 
     public override string ToString()
@@ -82,15 +111,18 @@ public abstract class Building : Area2D
         sprite.Modulate = new Color(sprite.Modulate.r, sprite.Modulate.g, sprite.Modulate.b, alpha);
     }
 
-    internal void UpdateColor(bool canPlace)
+    public void UpdateColorToRed()
     {
-        if (canPlace)
-        {
-            sprite.Modulate = previousColor;
-        }
-        else
-        {
-            sprite.Modulate = new Color(2.0f, sprite.Modulate.g, sprite.Modulate.b, sprite.Modulate.a);
-        }
+        sprite.Modulate = new Color(1.5f, sprite.Modulate.g, sprite.Modulate.b, sprite.Modulate.a);
+    }
+
+    public void UpdateColorToGreen()
+    {
+        sprite.Modulate = new Color(sprite.Modulate.r, 1.5f, sprite.Modulate.b, sprite.Modulate.a);
+    }
+
+    public void ResetColor()
+    {
+        sprite.Modulate = defaultColor;
     }
 }
