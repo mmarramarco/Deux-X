@@ -65,7 +65,14 @@
     <Compile Include="Scripts\Researches.cs" />
     <Compile Include="Scripts\ResearchId.cs" />
     <Compile Include="Scripts\ResourceId.cs" />
-    <Compile Include="Scripts\States\MouseState.cs" />
+    <Compile Include="Scripts\Building.cs" />
+    <Compile Include="Scripts\CityHall.cs" />
+    <Compile Include="Scripts\Constants.cs" />
+    <Compile Include="Scripts\Extensions.cs" />
+    <Compile Include="Scripts\HUD.cs" />
+    <Compile Include="Scripts\Enumerations\BuildingIds.cs" />
+    <Compile Include="Scripts\Enumerations\ManagementMode.cs" />
+    <Compile Include="Scripts\Enumerations\MouseState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
