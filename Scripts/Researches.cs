@@ -8,22 +8,22 @@ namespace DeuxX.Scripts
 {
     class Researches
     {
-        public Research[] researches;
+        public static Research[] data;
 
         public Researches()
         {
-            researches = new Research[Enum.GetNames(typeof(Research.E_Research)).Length];
+            data = new Research[Enum.GetNames(typeof(ResearchId)).Length];
 
-            Research root = new Research(Research.E_Research.None, "Root", Research.E_Research.None, null);
+            Research root = new Research(ResearchId.None, "Root", ResearchId.None, null);
 
-            researches[root.id] = root;
+            data[root.id] = root;
 
-            var recip = new Recipe_Dic<Resources>();
-            recip.add(Resources.Beginnium, 1);
+            var recip = new RecipeData<ResourceId>();
+            recip.add(ResourceId.Beginnium, 1);
 
-            Research res0 = new Research(Research.E_Research.Res0, "Res0", Research.E_Research.None, recip);
+            Research res0 = new Research(ResearchId.Res0, "Res0", ResearchId.None, recip);
 
-            researches[res0.id] = res0;
+            data[res0.id] = res0;
         }
     }
 }

@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace DeuxX.Scripts
 {
-    class Recipe_Dic<T>
+    class RecipeData<T>
     {
-        protected Dictionary<T, int> dic;
+        protected Dictionary<T, int> data;
 
-        public Recipe_Dic(){
-            dic = new Dictionary<T, int>();
+        public RecipeData(){
+            data = new Dictionary<T, int>();
         }
 
         public void add(T key, int quantity)
         {
-            if (!dic.ContainsKey(key))
+            if (!data.ContainsKey(key))
             {
-                dic.Add(key, quantity);
+                data.Add(key, quantity);
             }
             else
             {
-                dic[key] = quantity;
+                data[key] = quantity;
             }
         }
     }

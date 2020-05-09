@@ -1,6 +1,6 @@
 namespace DeuxX.Scripts
 {
-	public enum Resources
+	public enum ResourceId
 	{
 		Gold,
 		Beginnium,

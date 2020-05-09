@@ -54,13 +54,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\BuildingData.cs" />
+    <Compile Include="Scripts\BuildingId.cs" />
+    <Compile Include="Scripts\Buildings.cs" />
     <Compile Include="Scripts\CameraHandler.cs" />
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\Recipe.cs" />
-    <Compile Include="Scripts\Recipe_Dic.cs" />
+    <Compile Include="Scripts\RecipeData.cs" />
     <Compile Include="Scripts\Research.cs" />
     <Compile Include="Scripts\Researches.cs" />
-    <Compile Include="Scripts\Resources.cs" />
+    <Compile Include="Scripts\ResearchId.cs" />
+    <Compile Include="Scripts\ResourceId.cs" />
     <Compile Include="Scripts\States\MouseState.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

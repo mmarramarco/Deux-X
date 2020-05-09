@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeuxX.Scripts
 {
-    class Recipe<T, I>
+    public enum ResearchId : uint
     {
-        public RecipeData<T> input;
-
-        public RecipeData<I> output;
+        None = 0,
+        Res0
     }
 }
