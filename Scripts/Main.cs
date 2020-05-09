@@ -8,11 +8,11 @@ public class Main : TileMap
 	[Export]
 	public int IslandSize = 40;
 
-	public List<Building> Buildings = new List<Building>();
+	public List<BuildingNode> Buildings = new List<BuildingNode>();
 
 	private Random random;
 	private Camera2D camera;
-	private Building buildingToPlace = null;
+	private BuildingNode buildingToPlace = null;
 	private bool canBuildHere = true;
 	private List<int> collidingWithAreaId = new List<int>();
 	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;

@@ -1,3 +1,4 @@
+using DeuxX.Scripts;
 using Godot;
 using System;
 
@@ -17,8 +18,8 @@ public class HUD : Control
 	{
 		hBoxContainer = GetNode<HBoxContainer>("HBoxContainer");
 		CreateButton("Upgrade");
-		CreateButton(BuildingIds.CityHall);
-		CreateButton(BuildingIds.Unknown);
+		CreateButton(BuildingId.CityHall);
+		CreateButton(BuildingId.Unknown);
 		upgradeButton = hBoxContainer.GetNode<TextureButton>("Upgrade");
 		SetUpUpgradeButton();
 	}
@@ -35,7 +36,7 @@ public class HUD : Control
 		EmitSignal(nameof(SwitchToUpgradeModeSignal), toggle);
 	}
 
-	private void CreateButton(BuildingIds building)
+	private void CreateButton(BuildingId building)
 	{
 		var name = building.ToString();
 		CreateButton(name);
