@@ -9,15 +9,15 @@ namespace DeuxX.Scripts
 {
     class BuildingData
     {
-        string name;
-        string scenePath;
-        RecipeData<ResourceId> recipe;
-        ResearchId[] researchNeeded;
+        readonly string name;
+        public readonly string ScenePath;
+        readonly RecipeData<ResourceId> recipe;
+        readonly ResearchId[] researchNeeded;
 
-        public BuildingData(string name, string scenePath, RecipeData<ResourceId> recipe, ResearchId[] researchNeeded)
+        public BuildingData( string name, string scenePath, RecipeData<ResourceId> recipe, ResearchId[] researchNeeded)
         {
             this.name = name;
-            this.scenePath = scenePath;
+            ScenePath = scenePath;
             this.recipe = recipe;
             this.researchNeeded = researchNeeded;
         }

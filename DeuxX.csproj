@@ -58,6 +58,7 @@
     <Compile Include="Scripts\Enumerations\BuildingId.cs" />
     <Compile Include="Scripts\Containers\Buildings.cs" />
     <Compile Include="Scripts\CameraHandler.cs" />
+    <Compile Include="Scripts\Buildings\House.cs" />
     <Compile Include="Scripts\Hud\BuildingButton.cs" />
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\DataModeles\Recipe.cs" />
@@ -66,8 +67,8 @@
     <Compile Include="Scripts\Containers\Researches.cs" />
     <Compile Include="Scripts\Enumerations\ResearchId.cs" />
     <Compile Include="Scripts\Enumerations\ResourceId.cs" />
-    <Compile Include="Scripts\BuildingNode.cs" />
-    <Compile Include="Scripts\CityHall.cs" />
+    <Compile Include="Scripts\Buildings\BuildingNode.cs" />
+    <Compile Include="Scripts\Buildings\CityHall.cs" />
     <Compile Include="Scripts\Constants.cs" />
     <Compile Include="Scripts\Extensions.cs" />
     <Compile Include="Scripts\Hud\HUD.cs" />

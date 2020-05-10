@@ -25,7 +25,7 @@ public class HUD : Control
 	public void Initialize(Node node)
 	{
 		CreateButton(BuildingId.CityHall, node);
-		CreateButton(BuildingId.Unknown, node);
+		CreateButton(BuildingId.House, node);
 	}
 
 	private void SetUpUpgradeButton()
