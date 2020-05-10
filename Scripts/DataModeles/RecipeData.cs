@@ -14,7 +14,7 @@ namespace DeuxX.Scripts
             data = new Dictionary<T, int>();
         }
 
-        public void add(T key, int quantity)
+        public void Add(T key, int quantity)
         {
             if (!data.ContainsKey(key))
             {

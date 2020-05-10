@@ -1,3 +1,4 @@
+using DeuxX.Scripts;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ public class Main : TileMap
 		GenerateStartingIsland();
 		hud = GetNode<HUD>("CanvasLayer/HUD");
 		hud.Connect("SwitchToUpgradeModeSignal", this, nameof(SwitchToUpgradeMode));
+		hud.Initialize(this);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -48,14 +50,6 @@ public class Main : TileMap
 			EmitSignal(nameof(ShowBuildingSignal), true);
 		}
 
-		if (Input.IsActionJustPressed("key_z") && buildingToPlace == null)
-		{
-			buildingToPlace = Extensions.SmartSceneLoader<CityHall>("res://Scenes/CityHall.tscn");
-			buildingToPlace.Initialize();
-			AddChild(buildingToPlace);
-			currentMode = ManagementMode.BuildingMode; 
-		}
-
 		switch (currentMode)
 		{
 			case ManagementMode.BuildingMode:
@@ -69,6 +63,14 @@ public class Main : TileMap
 		{
 			ResetBuildingMode(removeChild: true);
 		}
+	}
+
+	private void StartBuilding(BuildingId buildingId)
+	{
+		buildingToPlace = Extensions.SmartSceneLoader<CityHall>("res://Scenes/CityHall.tscn");
+		buildingToPlace.Initialize();
+		AddChild(buildingToPlace);
+		currentMode = ManagementMode.BuildingMode;
 	}
 
 	private void SwitchToUpgradeMode(bool toggle)
@@ -129,11 +131,11 @@ public class Main : TileMap
 		canBuildHere = collidingWithAreaId.Count == 0;
 		if (canBuildHere)
 		{
-			buildingToPlace.UpdateColorToRed();
+			buildingToPlace.ResetColor();
 		}
 		else
 		{
-			buildingToPlace.ResetColor();
+			buildingToPlace.UpdateColorToRed();
 		}
 	}
 

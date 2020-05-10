@@ -54,24 +54,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scripts\Datas\BuildingData.cs" />
+    <Compile Include="Scripts\DataModeles\BuildingData.cs" />
     <Compile Include="Scripts\Enumerations\BuildingId.cs" />
-    <Compile Include="Scripts\Buildings.cs" />
+    <Compile Include="Scripts\Containers\Buildings.cs" />
     <Compile Include="Scripts\CameraHandler.cs" />
+    <Compile Include="Scripts\Hud\BuildingButton.cs" />
     <Compile Include="Scripts\Main.cs" />
-    <Compile Include="Scripts\Recipe.cs" />
-    <Compile Include="Scripts\Datas\RecipeData.cs" />
-    <Compile Include="Scripts\Research.cs" />
-    <Compile Include="Scripts\Researches.cs" />
+    <Compile Include="Scripts\DataModeles\Recipe.cs" />
+    <Compile Include="Scripts\DataModeles\RecipeData.cs" />
+    <Compile Include="Scripts\DataModeles\ResearchData.cs" />
+    <Compile Include="Scripts\Containers\Researches.cs" />
     <Compile Include="Scripts\Enumerations\ResearchId.cs" />
     <Compile Include="Scripts\Enumerations\ResourceId.cs" />
     <Compile Include="Scripts\BuildingNode.cs" />
     <Compile Include="Scripts\CityHall.cs" />
     <Compile Include="Scripts\Constants.cs" />
     <Compile Include="Scripts\Extensions.cs" />
-    <Compile Include="Scripts\HUD.cs" />
+    <Compile Include="Scripts\Hud\HUD.cs" />
     <Compile Include="Scripts\Enumerations\ManagementMode.cs" />
     <Compile Include="Scripts\Enumerations\MouseState.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

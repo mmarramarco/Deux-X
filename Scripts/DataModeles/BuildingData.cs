@@ -22,7 +22,7 @@ namespace DeuxX.Scripts
             this.researchNeeded = researchNeeded;
         }
 
-        public bool isBuildable()
+        public bool IsBuildable()
         {
             if(recipe == null)
             {
@@ -32,14 +32,16 @@ namespace DeuxX.Scripts
             return false;
         }
 
-        public bool isResearched()
+        public bool IsResearched()
         {
-            if (researchNeeded == null){
+            if (researchNeeded == null)
+            {
                 return true;
             }
 
-            foreach (var reasearchId in researchNeeded){
-                if (!Researches.data[(uint)reasearchId].isResearched)
+            foreach (var reasearchId in researchNeeded)
+            {
+                if (!Researches.data[(uint)reasearchId].IsResearched)
                 {
                     return false;
                 }
