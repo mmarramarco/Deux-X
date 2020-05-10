@@ -35,7 +35,6 @@ public class BuildingButton : TextureButton
 
     private void OnBuildingButtonClicked()
     {
-        GD.Print(buildingId.ToString());
         EmitSignal(nameof(StartBuildingSignal), buildingId);
     }
 }

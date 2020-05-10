@@ -2,7 +2,6 @@ using DeuxX.Scripts;
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 public class Main : TileMap
 {
@@ -18,6 +17,7 @@ public class Main : TileMap
 	private List<int> collidingWithAreaId = new List<int>();
 	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
 	private HUD hud;
+	private Buildings buildingsDataContainer = new Buildings();
 
 	[Signal]
 	private delegate void ShowBuildingSignal(bool show);
@@ -67,7 +67,7 @@ public class Main : TileMap
 
 	private void StartBuilding(BuildingId buildingId)
 	{
-		buildingToPlace = Extensions.SmartSceneLoader<CityHall>("res://Scenes/CityHall.tscn");
+		buildingToPlace = buildingsDataContainer.GetBuildingNode(buildingId);
 		buildingToPlace.Initialize();
 		AddChild(buildingToPlace);
 		currentMode = ManagementMode.BuildingMode;
@@ -75,7 +75,6 @@ public class Main : TileMap
 
 	private void SwitchToUpgradeMode(bool toggle)
 	{
-		GD.Print($"Switched to upgrade mode : {toggle}");
 		foreach(var building in Buildings)
 		{
 			building.SwitchToUpgradeMode(toggle);
@@ -132,6 +131,7 @@ public class Main : TileMap
 		if (canBuildHere)
 		{
 			buildingToPlace.ResetColor();
+			buildingToPlace.ChangeTransparency(0.75f);
 		}
 		else
 		{
