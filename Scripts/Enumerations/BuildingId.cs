@@ -8,7 +8,8 @@ namespace DeuxX.Scripts
 {
     public enum BuildingId : uint
     {
-        CityHall = 0,
+        Unknown,
+        CityHall,
         Tunnel,
         House,
         Greenhouse,

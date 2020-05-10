@@ -8,8 +8,8 @@ namespace DeuxX.Scripts
 {
     class Recipe<T, I>
     {
-        public RecipeData<T> input;
+        public RecipeData<T> Input;
 
-        public RecipeData<I> output;
+        public RecipeData<I> Output;
     }
 }

@@ -2,9 +2,9 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public class CityHall : Building
+public class CityHall : BuildingNode
 {
-	public List<Building> Buildings;
+	public List<BuildingNode> Buildings;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()

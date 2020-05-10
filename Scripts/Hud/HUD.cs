@@ -1,3 +1,4 @@
+using DeuxX.Scripts;
 using Godot;
 using System;
 
@@ -5,22 +6,26 @@ public class HUD : Control
 {
 
 	private HBoxContainer hBoxContainer;
-	private const string NormalTexturePath = "res://Ressources/Textures/Default/";
-	private const string PressedTexturePath = "res://Ressources/Textures/Pressed/";
 	private TextureButton upgradeButton;
 
 	[Signal]
 	private delegate void SwitchToUpgradeModeSignal(bool toggle);
+	[Signal]
+	private delegate void StartBuildingSignal(BuildingId buildingId);
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		hBoxContainer = GetNode<HBoxContainer>("HBoxContainer");
 		CreateButton("Upgrade");
-		CreateButton(BuildingIds.CityHall);
-		CreateButton(BuildingIds.Unknown);
 		upgradeButton = hBoxContainer.GetNode<TextureButton>("Upgrade");
 		SetUpUpgradeButton();
+	}
+
+	public void Initialize(Node node)
+	{
+		CreateButton(BuildingId.CityHall, node);
+		CreateButton(BuildingId.Unknown, node);
 	}
 
 	private void SetUpUpgradeButton()
@@ -35,20 +40,17 @@ public class HUD : Control
 		EmitSignal(nameof(SwitchToUpgradeModeSignal), toggle);
 	}
 
-	private void CreateButton(BuildingIds building)
+	private void CreateButton(BuildingId buildingId, Node node)
 	{
-		var name = building.ToString();
-		CreateButton(name);
+		var buildingButton = new BuildingButton();
+		buildingButton.CreateButton(buildingId, node);
+		hBoxContainer.AddChild(buildingButton);
 	}
 
 	private void CreateButton(string name)
 	{
-		var button = new TextureButton();
-		var resourceNormal = GD.Load<Texture>($"{NormalTexturePath}{name}.tres");
-		button.TextureNormal = resourceNormal;
-		var resourcePressed = GD.Load<Texture>($"{PressedTexturePath}{name}.tres");
-		button.TexturePressed = resourcePressed;
-		button.Name = name;
-		hBoxContainer.AddChild(button);
+		var buildingButton = new BuildingButton();
+		buildingButton.CreateButton(name);
+		hBoxContainer.AddChild(buildingButton);
 	}
 }

@@ -18,10 +18,15 @@ namespace DeuxX.Scripts
             buildings[(uint)BuildingId.CityHall] = new BuildingData("Cityhall", "res://", null, null);
 
             var recipeHouse = new RecipeData<ResourceId>();
-            recipeHouse.add(ResourceId.Beginnium, 1);
-            recipeHouse.add(ResourceId.Quartz, 1);
+            recipeHouse.Add(ResourceId.Beginnium, 1);
+            recipeHouse.Add(ResourceId.Quartz, 1);
 
             buildings[(uint)BuildingId.House] = new BuildingData("House", "res://", recipeHouse, null);
+        }
+
+        public BuildingData GetBuildingData(BuildingId buildingId)
+        {
+            return buildings[(uint)buildingId];
         }
     }
 }

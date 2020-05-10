@@ -4,7 +4,7 @@ using System;
 /// <summary>
 /// The building class. Defines behaviour for all buildings.
 /// </summary>
-public abstract class Building : Area2D
+public abstract class BuildingNode : Area2D
 {
     [Export]
     private readonly int MaxLevel = 2;
@@ -26,7 +26,7 @@ public abstract class Building : Area2D
         Connect("input_event", this, nameof(OnInputEven));
         sprite = GetNode<Sprite>("Sprite2D");
         defaultColor = sprite.Modulate;
-        sprite.Modulate = new Color(defaultColor.r, defaultColor.g, defaultColor.b, 0.75f);
+        ChangeTransparency(0.75f);
     }
 
     public void OnInputEven(Viewport viewport, InputEvent @event, int shapeIndex)
@@ -56,7 +56,7 @@ public abstract class Building : Area2D
 
     private void OnAreaEntered(Area2D area)
     {
-        if(area is Building)
+        if(area is BuildingNode)
         {
             EmitSignal(nameof(CanPlaceBuildingSignal), false, GetInstanceId());
         }
@@ -64,7 +64,7 @@ public abstract class Building : Area2D
 
     private void OnAreaExited(Area2D area)
     {
-        if (area is Building)
+        if (area is BuildingNode)
         {
             EmitSignal(nameof(CanPlaceBuildingSignal), true, GetInstanceId());
         }
@@ -84,6 +84,7 @@ public abstract class Building : Area2D
     internal void SwitchToUpgradeMode(bool toggle)
     {
         upgradeMode = toggle;
+        ResetColor();
         if (upgradeMode)
         {
             if (CanUpgrade())
@@ -93,11 +94,8 @@ public abstract class Building : Area2D
             else
             {
                 UpdateColorToRed();
+                GD.Print("updated color");
             }
-        }
-        else
-        {
-            ResetColor();
         }
     }
 
