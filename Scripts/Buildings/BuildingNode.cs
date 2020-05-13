@@ -16,7 +16,9 @@ public abstract class BuildingNode : Area2D
 	private Color defaultColor;
 	private bool upgradeMode = false;
 
-	[Signal]
+    public Vector2 Offset { get; set; }
+
+    [Signal]
 	private delegate void CanPlaceBuildingSignal(bool canPlace, int id);
 
 	public void Initialize()

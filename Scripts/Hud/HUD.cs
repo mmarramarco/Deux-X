@@ -26,6 +26,10 @@ public class HUD : Control
 	{
 		CreateButton(BuildingId.CityHall, node);
 		CreateButton(BuildingId.House, node);
+		CreateButton(BuildingId.Steamturbine, node);
+		CreateButton(BuildingId.Greenhouse, node);
+		CreateButton(BuildingId.Workshop, node);
+		CreateButton(BuildingId.Tunnel, node);
 	}
 
 	private void SetUpUpgradeButton()

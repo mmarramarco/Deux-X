@@ -14,7 +14,7 @@ namespace DeuxX.Scripts
         House,
         Greenhouse,
         Workshop,
-        SteamTurbine,
+        Steamturbine,
         Extractor
     }
 }
