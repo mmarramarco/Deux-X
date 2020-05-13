@@ -86,7 +86,7 @@ public class Main : TileMap
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
 		var tilePosition = WorldToMap(position);
-		var realPosition = MapToWorld(tilePosition) + new Vector2(8f, 8f); // building offset, TODO : make it prettier, and per building.
+		var realPosition = MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
 		buildingToPlace.Position = realPosition;
 
 		if (canBuildHere)

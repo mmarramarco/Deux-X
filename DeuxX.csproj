@@ -54,11 +54,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Buildings\Steamturbine.cs" />
+    <Compile Include="Scripts\Buildings\Tunnel.cs" />
+    <Compile Include="Scripts\Buildings\Workshop.cs" />
     <Compile Include="Scripts\DataModeles\BuildingData.cs" />
     <Compile Include="Scripts\Enumerations\BuildingId.cs" />
     <Compile Include="Scripts\Containers\Buildings.cs" />
     <Compile Include="Scripts\CameraHandler.cs" />
     <Compile Include="Scripts\Buildings\House.cs" />
+    <Compile Include="Scripts\Buildings\Greenhouse.cs" />
     <Compile Include="Scripts\Hud\BuildingButton.cs" />
     <Compile Include="Scripts\Main.cs" />
     <Compile Include="Scripts\DataModeles\Recipe.cs" />

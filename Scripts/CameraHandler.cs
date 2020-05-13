@@ -6,7 +6,7 @@ public class CameraHandler : Camera2D
     [Export]
     private float ZoomScaling = 0.1f;
     private Vector2 ZoomScalingVector;
-    private Vector2 MinimalZoom = new Vector2(0.5f, 0.5f);
+    private Vector2 MinimalZoom = new Vector2(0.3f, 0.3f);
     private Vector2 MaximalZoom = new Vector2(1.5f, 1.5f);
     private MouseState currentState = MouseState.Released;
 
@@ -48,7 +48,7 @@ public class CameraHandler : Camera2D
         {
             if(currentState == MouseState.Clicking)
             {
-                Position -= mouseMotion.Relative;
+                Position -= mouseMotion.Relative * Zoom;
             }
         }
     }
