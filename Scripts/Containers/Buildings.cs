@@ -44,6 +44,9 @@ namespace DeuxX.Scripts
 
             var tunnel = "Tunnel";
             buildings[(uint)BuildingId.Tunnel] = new BuildingData(tunnel, string.Format(scenePath, tunnel), null, null, buildingIs1x2);
+
+            var extractor = "Extractor";
+            buildings[(uint)BuildingId.Extractor] = new BuildingData(extractor, string.Format(scenePath, extractor), null, null, buildingIs2x3);
         }
 
         public BuildingData GetBuildingData(BuildingId buildingId)
@@ -77,7 +80,7 @@ namespace DeuxX.Scripts
                     buildingNode = Extensions.SmartSceneLoader<Tunnel>(buildingData.ScenePath);
                     break;
                 case BuildingId.Extractor:
-                    //buildingNode = Extensions.SmartSceneLoader<Steamturbine>(buildingData.ScenePath);
+                    buildingNode = Extensions.SmartSceneLoader<Extractor>(buildingData.ScenePath);
                     break;
                 default:
                     var message = $"If you can read this in the editor, you forgot to add {buildingId} to Buildigns.GetBuildingNode.";

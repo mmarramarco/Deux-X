@@ -30,6 +30,7 @@ public class HUD : Control
 		CreateButton(BuildingId.Greenhouse, node);
 		CreateButton(BuildingId.Workshop, node);
 		CreateButton(BuildingId.Tunnel, node);
+		CreateButton(BuildingId.Extractor, node);
 	}
 
 	private void SetUpUpgradeButton()
