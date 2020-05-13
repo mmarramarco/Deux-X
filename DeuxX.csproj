@@ -57,7 +57,9 @@
     <Compile Include="Scripts\Buildings\Steamturbine.cs" />
     <Compile Include="Scripts\Buildings\Tunnel.cs" />
     <Compile Include="Scripts\Buildings\Workshop.cs" />
+    <Compile Include="Scripts\Containers\Resources.cs" />
     <Compile Include="Scripts\DataModeles\BuildingData.cs" />
+    <Compile Include="Scripts\DataModeles\ResourceData.cs" />
     <Compile Include="Scripts\Enumerations\BuildingId.cs" />
     <Compile Include="Scripts\Containers\Buildings.cs" />
     <Compile Include="Scripts\CameraHandler.cs" />

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Ressources/Textures/Default/Unknown.tres" type="Texture" id=1]
+
+[node name="ResourcesNode" type="Control"]
+margin_right = 120.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 120, 32 )
+
+[node name="Icon" type="TextureRect" parent="."]
+margin_right = 32.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quantity" type="Label" parent="."]
+margin_left = 32.0
+margin_right = 80.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_vertical = 1
+text = "999999"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Gain" type="Label" parent="."]
+margin_left = 81.0
+margin_right = 113.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_vertical = 1
+text = "+999"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

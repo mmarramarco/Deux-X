@@ -20,6 +20,14 @@ public class HUD : Control
 		CreateButton("Upgrade");
 		upgradeButton = hBoxContainer.GetNode<TextureButton>("Upgrade");
 		SetUpUpgradeButton();
+
+		var ResourcesNode = ResourceLoader.Load<PackedScene>("res://Scenes/ResourcesNode.tscn");
+
+		var hBoxResources = GetNode<HBoxContainer>("HBoxResources");
+
+		var node = ResourcesNode.Instance() as Control;
+
+		hBoxResources.AddChild(node);
 	}
 
 	public void Initialize(Node node)
