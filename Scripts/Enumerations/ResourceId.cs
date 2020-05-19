@@ -2,16 +2,18 @@ namespace DeuxX.Scripts
 {
 	public enum ResourceId
 	{
-		Gold,
-		Beginnium,
-		Copper,
-		Quartz,
+		Workers,
 		Water,
+		Electricity,
 		Cereals,
 		Fish,
 		Meat,
 		Fruits,
-		Workers,
-		Electricity
+		Credits,
+		Beginium,
+		Quartz,
+		Copper,
+		Midinium,
+		Hightium
 	}
 }

@@ -1,12 +1,15 @@
-using DeuxX.Scripts;
 using Godot;
+using Godot.Collections;
 using System;
+using DeuxX.Scripts;
 
 public class HUD : Control
 {
 
-	private HBoxContainer hBoxContainer;
+	private VBoxContainer vBoxContainer;
 	private TextureButton upgradeButton;
+
+	private Dictionary<ResourceId, ResourceNode> resourceNodes;
 
 	[Signal]
 	private delegate void SwitchToUpgradeModeSignal(bool toggle);
@@ -16,16 +19,18 @@ public class HUD : Control
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		hBoxContainer = GetNode<HBoxContainer>("HBoxContainer");
+		vBoxContainer = GetNode<VBoxContainer>("VBoxContainer");
 		CreateButton("Upgrade");
-		upgradeButton = hBoxContainer.GetNode<TextureButton>("Upgrade");
+		upgradeButton = vBoxContainer.GetNode<TextureButton>("Upgrade");
 		SetUpUpgradeButton();
 
 		var ResourcesNode = ResourceLoader.Load<PackedScene>("res://Scenes/ResourcesNode.tscn");
 
 		var hBoxResources = GetNode<HBoxContainer>("HBoxResources");
 
-		var node = ResourcesNode.Instance() as Control;
+		var node = ResourcesNode.Instance() as ResourceNode;
+
+		node.init(ResourceId.Workers);
 
 		hBoxResources.AddChild(node);
 	}
@@ -56,13 +61,13 @@ public class HUD : Control
 	{
 		var buildingButton = new BuildingButton();
 		buildingButton.CreateButton(buildingId, node);
-		hBoxContainer.AddChild(buildingButton);
+		vBoxContainer.AddChild(buildingButton);
 	}
 
 	private void CreateButton(string name)
 	{
 		var buildingButton = new BuildingButton();
 		buildingButton.CreateButton(name);
-		hBoxContainer.AddChild(buildingButton);
+		vBoxContainer.AddChild(buildingButton);
 	}
 }

@@ -19,7 +19,7 @@ namespace DeuxX.Scripts
             data[root.Id] = root;
 
             var recip = new RecipeData<ResourceId>();
-            recip.Add(ResourceId.Beginnium, 1);
+            recip.Add(ResourceId.Beginium, 1);
 
             ResearchData res0 = new ResearchData(ResearchId.Res0, "Res0", ResearchId.None, recip);
 

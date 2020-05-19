@@ -8,13 +8,15 @@ namespace DeuxX.Scripts
 {
     class Resources
     {
-        public static ResourceData[] resources;
+        public static ResourceData[] data;
 
         public Resources()
         {
-            resources = new ResourceData[Enum.GetNames(typeof(ResourceId)).Length];
+            data = new ResourceData[Enum.GetNames(typeof(ResourceId)).Length];
 
-            resources[(uint)ResourceId.Beginnium] = new ResourceData("Beginnium");
+            data[(uint)ResourceId.Workers] = new ResourceData("Workers");
+
+            data[(uint)ResourceId.Beginium] = new ResourceData("Beginium");
         }
     }
 }

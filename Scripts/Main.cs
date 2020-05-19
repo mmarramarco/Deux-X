@@ -19,6 +19,8 @@ public class Main : TileMap
 	private HUD hud;
 	private Buildings buildingsDataContainer = new Buildings();
 
+	private Resources resources = new Resources();
+
 	[Signal]
 	private delegate void ShowBuildingSignal(bool show);
 

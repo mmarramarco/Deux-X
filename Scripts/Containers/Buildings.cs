@@ -27,7 +27,7 @@ namespace DeuxX.Scripts
             buildings[(uint)BuildingId.CityHall] = new BuildingData(cityHall, string.Format(scenePath, cityHall), null, null, buildingIs3x3);
 
             var recipeHouse = new RecipeData<ResourceId>();
-            recipeHouse.Add(ResourceId.Beginnium, 1);
+            recipeHouse.Add(ResourceId.Beginium, 1);
             recipeHouse.Add(ResourceId.Quartz, 1);
 
             var house = "House";

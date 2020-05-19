@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Ressources/Textures/Default/Unknown.tres" type="Texture" id=1]
+[ext_resource path="res://Scripts/Hud/ResourceNode.cs" type="Script" id=2]
 
 [node name="ResourcesNode" type="Control"]
 margin_right = 120.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 120, 32 )
+script = ExtResource( 2 )
 
 [node name="Icon" type="TextureRect" parent="."]
 margin_right = 32.0
@@ -29,7 +31,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Gain" type="Label" parent="."]
+[node name="Produced" type="Label" parent="."]
 margin_left = 81.0
 margin_right = 113.0
 margin_bottom = 32.0
