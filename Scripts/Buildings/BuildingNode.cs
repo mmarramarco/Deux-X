@@ -1,3 +1,4 @@
+using DeuxX.Scripts;
 using Godot;
 using System;
 
@@ -125,4 +126,9 @@ public abstract class BuildingNode : Area2D
 	{
 		sprite.Modulate = defaultColor;
 	}
+
+	public virtual void build(Main main)
+    {
+		ChangeTransparency(1);
+    }
 }

@@ -104,8 +104,11 @@ public class Main : TileMap
 	{
 		Connect(nameof(ShowBuildingSignal), buildingToPlace, "ShowBuilding");
 		buildingToPlace.Connect("CanPlaceBuildingSignal", this, nameof(CanPlaceBuilding));
-		buildingToPlace.ChangeTransparency(1);
+
+		buildingToPlace.build(this);
+		
 		Buildings.Add(buildingToPlace);
+		
 		ResetBuildingMode();
 	}
 
@@ -175,4 +178,21 @@ public class Main : TileMap
 		camera = GetNode<Camera2D>("Camera2D");
 	}
 
+	public void setResource(ResourceId resourceId, uint quantity)
+    {
+		Resources.data[(uint)resourceId].quantity = quantity;
+		hud.resetResource(resourceId);
+	}
+
+	public void addResource(ResourceId resourceId, uint quantity)
+    {
+		Resources.data[(uint)resourceId].quantity += quantity;
+		hud.resetResource(resourceId);
+	}
+
+	public void subResource(ResourceId resourceId, uint quantity)
+    {
+		Resources.data[(uint)resourceId].quantity -= quantity;
+		hud.resetResource(resourceId);
+	}
 }

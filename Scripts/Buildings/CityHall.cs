@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using DeuxX.Scripts;
 
 public class CityHall : BuildingNode
 {
@@ -11,6 +12,13 @@ public class CityHall : BuildingNode
 	{
 		
 	}
+
+	public override void build(Main main)
+    {
+		base.build(main);
+
+		main.addResource(ResourceId.Workers, 10);
+    }
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
 	//  public override void _Process(float delta)

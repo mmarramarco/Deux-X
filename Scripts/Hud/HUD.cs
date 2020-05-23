@@ -24,6 +24,8 @@ public class HUD : Control
 		upgradeButton = vBoxContainer.GetNode<TextureButton>("Upgrade");
 		SetUpUpgradeButton();
 
+		resourceNodes = new Dictionary<ResourceId, ResourceNode>();
+
 		var ResourcesNode = ResourceLoader.Load<PackedScene>("res://Scenes/ResourcesNode.tscn");
 
 		var hBoxResources = GetNode<HBoxContainer>("HBoxResources");
@@ -33,6 +35,8 @@ public class HUD : Control
 		node.init(ResourceId.Workers);
 
 		hBoxResources.AddChild(node);
+
+		resourceNodes.Add(ResourceId.Workers, node);
 	}
 
 	public void Initialize(Node node)
@@ -70,4 +74,9 @@ public class HUD : Control
 		buildingButton.CreateButton(name);
 		vBoxContainer.AddChild(buildingButton);
 	}
+
+	public void resetResource(ResourceId resourceId)
+    {
+		resourceNodes[resourceId].reset();
+    }
 }
