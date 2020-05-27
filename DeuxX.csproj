@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Buildings\Extractor.cs" />
     <Compile Include="Scripts\Buildings\Steamturbine.cs" />
     <Compile Include="Scripts\Buildings\Tunnel.cs" />
     <Compile Include="Scripts\Buildings\Workshop.cs" />

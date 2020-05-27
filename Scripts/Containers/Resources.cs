@@ -12,13 +12,16 @@ namespace DeuxX.Scripts
 
         public Resources()
         {
-            data = new ResourceData[Enum.GetNames(typeof(ResourceId)).Length];
+            var names = Enum.GetNames(typeof(ResourceId));
 
-            data[(uint)ResourceId.Workers] = new ResourceData("Workers");
+            var length = names.Length;
 
-            data[(uint)ResourceId.Electricity] = new ResourceData("Electricity");
+            data = new ResourceData[length];
 
-            data[(uint)ResourceId.Beginium] = new ResourceData("Beginium");
+            for(uint i = 0; i<length; i++)
+            {
+                data[i] = new ResourceData(names[i]);
+            }
         }
     }
 }

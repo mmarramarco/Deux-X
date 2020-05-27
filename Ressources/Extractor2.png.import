@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Extractor.png-9f7167d80a59fa01a09bff2ca535d8ad.stex"
+path="res://.import/Extractor2.png-181cdc7e641f8fc5e0404982d51352c5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Ressources/Extractor.png"
-dest_files=[ "res://.import/Extractor.png-9f7167d80a59fa01a09bff2ca535d8ad.stex" ]
+source_file="res://Ressources/Extractor2.png"
+dest_files=[ "res://.import/Extractor2.png-181cdc7e641f8fc5e0404982d51352c5.stex" ]
 
 [params]
 

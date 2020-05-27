@@ -22,14 +22,16 @@ public class BuildingButton : TextureButton
         CreateButton(name);
         Connect("pressed", this, nameof(OnBuildingButtonClicked));
         Connect(nameof(StartBuildingSignal), node, "StartBuilding");
+
+        HintTooltip = name;
     }
 
     public void CreateButton(string name)
     {
         var resourceNormal = GD.Load<Texture>($"{NormalTexturePath}{name}.tres");
         TextureNormal = resourceNormal;
-        var resourcePressed = GD.Load<Texture>($"{PressedTexturePath}{name}.tres");
-        TexturePressed = resourcePressed;
+        //var resourcePressed = GD.Load<Texture>($"{PressedTexturePath}{name}.tres");
+        //TexturePressed = resourcePressed;
         Name = name;
     }
 

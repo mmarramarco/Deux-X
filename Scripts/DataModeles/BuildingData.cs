@@ -11,6 +11,7 @@ namespace DeuxX.Scripts
     {
         readonly string name;
         public readonly string ScenePath;
+        public readonly PackedScene scene;
         readonly RecipeData<ResourceId> recipe;
         readonly ResearchId[] researchNeeded;
 
@@ -31,6 +32,9 @@ namespace DeuxX.Scripts
         {
             this.name = name;
             ScenePath = scenePath;
+
+            scene = ResourceLoader.Load<PackedScene>("res://Scenes/"+name+".tscn");
+
             this.recipe = recipe;
             this.researchNeeded = researchNeeded;
             Offset = offset;

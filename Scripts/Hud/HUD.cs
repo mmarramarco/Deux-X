@@ -50,6 +50,7 @@ public class HUD : Control
 	public void Initialize(Node node)
 	{
 		CreateButton(BuildingId.CityHall, node);
+		CreateButton(BuildingId.Extractor, node);
 		CreateButton(BuildingId.House, node);
 		CreateButton(BuildingId.Steamturbine, node);
 		CreateButton(BuildingId.Greenhouse, node);

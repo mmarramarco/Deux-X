@@ -8,7 +8,10 @@ public class Main : TileMap
 	[Export]
 	public int IslandSize = 40;
 
-	public List<BuildingNode> Buildings = new List<BuildingNode>();
+	private Buildings buildings = new Buildings();
+	private Resources resources = new Resources();
+
+	public List<BuildingNode> buildingNodes = new List<BuildingNode>();
 
 	private Random random;
 	private Camera2D camera;
@@ -17,9 +20,6 @@ public class Main : TileMap
 	private List<int> collidingWithAreaId = new List<int>();
 	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
 	private HUD hud;
-	private Buildings buildingsDataContainer = new Buildings();
-
-	private Resources resources = new Resources();
 
 	[Signal]
 	private delegate void ShowBuildingSignal(bool show);
@@ -69,7 +69,7 @@ public class Main : TileMap
 
 	private void StartBuilding(BuildingId buildingId)
 	{
-		buildingToPlace = buildingsDataContainer.GetBuildingNode(buildingId);
+		buildingToPlace = Buildings.data[(uint)buildingId].scene.Instance() as BuildingNode;
 		buildingToPlace.Initialize();
 		AddChild(buildingToPlace);
 		currentMode = ManagementMode.BuildingMode;
@@ -77,7 +77,7 @@ public class Main : TileMap
 
 	private void SwitchToUpgradeMode(bool toggle)
 	{
-		foreach(var building in Buildings)
+		foreach(var building in buildingNodes)
 		{
 			building.SwitchToUpgradeMode(toggle);
 		}
@@ -107,7 +107,7 @@ public class Main : TileMap
 
 		buildingToPlace.build(this);
 		
-		Buildings.Add(buildingToPlace);
+		buildingNodes.Add(buildingToPlace);
 		
 		ResetBuildingMode();
 	}

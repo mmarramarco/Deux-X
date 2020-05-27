@@ -9,7 +9,7 @@ namespace DeuxX.Scripts
 {
     class Buildings
     {
-        public static BuildingData[] buildings;
+        public static BuildingData[] data;
         private readonly string scenePath = "res://Scenes/{0}.tscn";
         private readonly static float OddWide = 8f;
         private readonly static float EvenWide = 0f;
@@ -21,34 +21,37 @@ namespace DeuxX.Scripts
 
         public Buildings()
         {
-            buildings = new BuildingData[Enum.GetNames(typeof(BuildingId)).Length];
+            data = new BuildingData[Enum.GetNames(typeof(BuildingId)).Length];
 
             var cityHall = "CityHall";
-            buildings[(uint)BuildingId.CityHall] = new BuildingData(cityHall, string.Format(scenePath, cityHall), null, null, buildingIs3x3);
+            data[(uint)BuildingId.CityHall] = new BuildingData(cityHall, string.Format(scenePath, cityHall), null, null, buildingIs3x3);
+
+            var extractor = "Extractor";
+            data[(uint)BuildingId.Extractor] = new BuildingData(extractor, string.Format(scenePath, extractor), null, null, Vector2.Zero);
 
             var recipeHouse = new RecipeData<ResourceId>();
             recipeHouse.Add(ResourceId.Beginium, 1);
             recipeHouse.Add(ResourceId.Quartz, 1);
 
             var house = "House";
-            buildings[(uint)BuildingId.House] = new BuildingData(house, string.Format(scenePath, house), recipeHouse, null, buildingIs2x3);
+            data[(uint)BuildingId.House] = new BuildingData(house, string.Format(scenePath, house), recipeHouse, null, buildingIs2x3);
 
             var steamTurbine = "Steamturbine";
-            buildings[(uint)BuildingId.Steamturbine] = new BuildingData(steamTurbine, string.Format(scenePath, steamTurbine), null, null, buildingIs3x4);
+            data[(uint)BuildingId.Steamturbine] = new BuildingData(steamTurbine, string.Format(scenePath, steamTurbine), null, null, buildingIs3x4);
 
             var greenHouse = "Greenhouse";
-            buildings[(uint)BuildingId.Greenhouse] = new BuildingData(greenHouse, string.Format(scenePath, greenHouse), null, null, buildingIs3x3);
+            data[(uint)BuildingId.Greenhouse] = new BuildingData(greenHouse, string.Format(scenePath, greenHouse), null, null, buildingIs3x3);
 
             var workShop = "Workshop";
-            buildings[(uint)BuildingId.Workshop] = new BuildingData(workShop, string.Format(scenePath, workShop), null, null, buildingIs3x3);
+            data[(uint)BuildingId.Workshop] = new BuildingData(workShop, string.Format(scenePath, workShop), null, null, buildingIs3x3);
 
             var tunnel = "Tunnel";
-            buildings[(uint)BuildingId.Tunnel] = new BuildingData(tunnel, string.Format(scenePath, tunnel), null, null, buildingIs1x2);
+            data[(uint)BuildingId.Tunnel] = new BuildingData(tunnel, string.Format(scenePath, tunnel), null, null, buildingIs1x2);
         }
 
         public BuildingData GetBuildingData(BuildingId buildingId)
         {
-            return buildings[(uint)buildingId];
+            return data[(uint)buildingId];
         }
 
         public BuildingNode GetBuildingNode(BuildingId buildingId)
