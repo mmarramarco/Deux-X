@@ -8,7 +8,7 @@ namespace DeuxX.Scripts
 {
     class ResourceData
     {
-        string name;
+        public string name;
 
         public uint quantity;
 

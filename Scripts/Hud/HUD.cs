@@ -11,10 +11,23 @@ public class HUD : Control
 
 	private Dictionary<ResourceId, ResourceNode> resourceNodes;
 
+	private HBoxContainer hBoxResources;
+
 	[Signal]
 	private delegate void SwitchToUpgradeModeSignal(bool toggle);
 	[Signal]
 	private delegate void StartBuildingSignal(BuildingId buildingId);
+
+	private void addResourceNode(PackedScene ResourcesNode, ResourceId resourceId)
+    {
+		var node = ResourcesNode.Instance() as ResourceNode;
+
+		node.init(resourceId);
+
+		hBoxResources.AddChild(node);
+
+		resourceNodes.Add(resourceId, node);
+	}
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -26,17 +39,12 @@ public class HUD : Control
 
 		resourceNodes = new Dictionary<ResourceId, ResourceNode>();
 
+		hBoxResources = GetNode<HBoxContainer>("HBoxResources");
+
 		var ResourcesNode = ResourceLoader.Load<PackedScene>("res://Scenes/ResourcesNode.tscn");
 
-		var hBoxResources = GetNode<HBoxContainer>("HBoxResources");
-
-		var node = ResourcesNode.Instance() as ResourceNode;
-
-		node.init(ResourceId.Workers);
-
-		hBoxResources.AddChild(node);
-
-		resourceNodes.Add(ResourceId.Workers, node);
+		addResourceNode(ResourcesNode, ResourceId.Workers);
+		addResourceNode(ResourcesNode, ResourceId.Electricity);
 	}
 
 	public void Initialize(Node node)
@@ -77,6 +85,9 @@ public class HUD : Control
 
 	public void resetResource(ResourceId resourceId)
     {
-		resourceNodes[resourceId].reset();
+        if (resourceNodes.ContainsKey(resourceId))
+        {
+			resourceNodes[resourceId].reset();
+		}
     }
 }

@@ -18,6 +18,7 @@ public class CityHall : BuildingNode
 		base.build(main);
 
 		main.addResource(ResourceId.Workers, 10);
+		main.addProduced(ResourceId.Electricity, 5);
     }
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

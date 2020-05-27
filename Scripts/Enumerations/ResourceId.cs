@@ -1,8 +1,8 @@
 namespace DeuxX.Scripts
 {
-	public enum ResourceId
+	public enum ResourceId : uint
 	{
-		Workers,
+		Workers = 0,
 		Water,
 		Electricity,
 		Cereals,

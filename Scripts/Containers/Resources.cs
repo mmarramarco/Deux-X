@@ -16,6 +16,8 @@ namespace DeuxX.Scripts
 
             data[(uint)ResourceId.Workers] = new ResourceData("Workers");
 
+            data[(uint)ResourceId.Electricity] = new ResourceData("Electricity");
+
             data[(uint)ResourceId.Beginium] = new ResourceData("Beginium");
         }
     }

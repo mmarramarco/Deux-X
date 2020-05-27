@@ -179,20 +179,46 @@ public class Main : TileMap
 	}
 
 	public void setResource(ResourceId resourceId, uint quantity)
-    {
+	{
 		Resources.data[(uint)resourceId].quantity = quantity;
 		hud.resetResource(resourceId);
 	}
 
 	public void addResource(ResourceId resourceId, uint quantity)
-    {
+	{
 		Resources.data[(uint)resourceId].quantity += quantity;
 		hud.resetResource(resourceId);
 	}
 
 	public void subResource(ResourceId resourceId, uint quantity)
-    {
+	{
 		Resources.data[(uint)resourceId].quantity -= quantity;
 		hud.resetResource(resourceId);
+	}
+
+	public void addProduced(ResourceId resourceId, int produced)
+	{
+		Resources.data[(uint)resourceId].produced += produced;
+		hud.resetResource(resourceId);
+	}
+
+	public void onTimerTimeout()
+	{
+		for(uint i = 0; i < Resources.data.Length; i++)
+		{
+			var resource = Resources.data[i];
+
+			if (resource != null && resource.produced != 0)
+			{
+				if(resource.produced > 0)
+				{
+					addResource((ResourceId)i, (uint)resource.produced);
+				}
+				else
+				{
+					subResource((ResourceId)i, (uint)resource.produced);
+				}
+			}
+		}
 	}
 }
