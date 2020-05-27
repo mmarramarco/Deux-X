@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using DeuxX.Scripts;
 
 public class Steamturbine : BuildingNode
 {
@@ -13,9 +14,18 @@ public class Steamturbine : BuildingNode
         
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+    public override void build(Main main)
+    {
+        base.build(main);
+
+        main.subResource(ResourceId.Workers, 2);
+        main.addProduced(ResourceId.Water, -3);
+        main.addProduced(ResourceId.Electricity, 5);
+    }
+
+    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+    //  public override void _Process(float delta)
+    //  {
+    //      
+    //  }
 }

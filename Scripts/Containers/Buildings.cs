@@ -46,7 +46,7 @@ namespace DeuxX.Scripts
             data[(uint)BuildingId.Workshop] = new BuildingData(workShop, string.Format(scenePath, workShop), null, null, buildingIs3x3);
 
             var tunnel = "Tunnel";
-            data[(uint)BuildingId.Tunnel] = new BuildingData(tunnel, string.Format(scenePath, tunnel), null, null, buildingIs1x2);
+            data[(uint)BuildingId.Tunnel] = new BuildingData(tunnel, string.Format(scenePath, tunnel), null, null, new Vector2(-16, 0));
         }
 
         public BuildingData GetBuildingData(BuildingId buildingId)
