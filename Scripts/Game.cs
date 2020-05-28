@@ -1,46 +1,44 @@
-using DeuxX.Scripts;
 using Godot;
 using System;
+using DeuxX.Scripts;
 using System.Collections.Generic;
 
-public class Main : TileMap
+public class Game : Node
 {
-	[Export]
-	public int IslandSize = 40;
+    [Signal]
+    private delegate void ShowBuildingSignal(bool show);
 
-	private Buildings buildings = new Buildings();
-	private Resources resources = new Resources();
+    private Buildings buildings = new Buildings();
+    private Resources resources = new Resources();
 
-	public List<BuildingNode> buildingNodes = new List<BuildingNode>();
+    public List<BuildingNode> buildingNodes = new List<BuildingNode>();
 
-	private Random random;
-	private Camera2D camera;
-	private BuildingNode buildingToPlace = null;
-	private bool canBuildHere = true;
-	private List<int> collidingWithAreaId = new List<int>();
-	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
-	private HUD hud;
+    private Camera2D camera;
+    private BuildingNode buildingToPlace = null;
+    private bool canBuildHere = true;
+    private List<int> collidingWithAreaId = new List<int>();
+    private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
+    private HUD hud;
 
-	[Signal]
-	private delegate void ShowBuildingSignal(bool show);
+	private World world;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
-	{
-		GetAllNodeOnce();
-		random = new Random();
-		GenerateStartingIsland();
+    {
+		camera = GetNode<Camera2D>("Camera2D");
+		world = GetNode<World>("World");
 		hud = GetNode<HUD>("CanvasLayer/HUD");
-		hud.Connect("SwitchToUpgradeModeSignal", this, nameof(SwitchToUpgradeMode));
-		hud.Initialize(this);
-	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+		world.GenerateStartingIsland();
+        
+        hud.Connect("SwitchToUpgradeModeSignal", this, nameof(SwitchToUpgradeMode));
+        hud.Initialize(this);
+    }
+
 	public override void _Process(float delta)
 	{
 		if (Input.IsActionJustPressed("ui_select"))
 		{
-			GenerateStartingIsland();
+			world.GenerateStartingIsland();
 		}
 
 		if (Input.IsActionJustPressed("tab_key"))
@@ -77,18 +75,20 @@ public class Main : TileMap
 
 	private void SwitchToUpgradeMode(bool toggle)
 	{
-		foreach(var building in buildingNodes)
+		foreach (var building in buildingNodes)
 		{
 			building.SwitchToUpgradeMode(toggle);
 		}
 	}
-
 	private void BuildingMode()
 	{
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
-		var tilePosition = WorldToMap(position);
-		var realPosition = MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
+		
+		
+		
+		var tilePosition = world.WorldToMap(position);
+		var realPosition = world.MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
 		buildingToPlace.Position = realPosition;
 
 		if (canBuildHere)
@@ -106,9 +106,9 @@ public class Main : TileMap
 		buildingToPlace.Connect("CanPlaceBuildingSignal", this, nameof(CanPlaceBuilding));
 
 		buildingToPlace.build(this);
-		
+
 		buildingNodes.Add(buildingToPlace);
-		
+
 		ResetBuildingMode();
 	}
 
@@ -144,58 +144,7 @@ public class Main : TileMap
 		}
 	}
 
-	private void GenerateStartingIsland()
-	{
-		Clear();
-
-		var noise = new OpenSimplexNoise();
-
-		noise.Seed = (int)GD.Randi();
-		noise.Octaves = 4;
-		noise.Period = 20;
-		noise.Persistence = 0.8f;
-
-		for (int i = 0; i < IslandSize; i++)
-		{
-			for (int j = 0; j < IslandSize; j++)
-			{
-				var pos = new Vector2(i, j);
-
-				SetCellv(pos, (int)Mathf.Lerp(0, 2, (noise.GetNoise2dv(pos)+1)/2) );
-				UpdateBitmaskArea(pos);
-			}
-		}
-
-		//var startringPoint = new Vector2(0, 0);
-		//GenerateIsland(startringPoint);
-	}
-
-	private void GenerateIsland(Vector2 newIslandCenter)
-	{
-		var tileMapCenter = WorldToMap(newIslandCenter);
-		var startingPoint = new Vector2(tileMapCenter.x - IslandSize / 2, tileMapCenter.y - IslandSize / 2);
-		Vector2 newCellPosition;
-		for(int i = 0; i < IslandSize; i++)
-		{
-			for (int j = 0; j < IslandSize; j++)
-			{
-				newCellPosition = new Vector2(startingPoint.x + i, startingPoint.y + j);
-				GenerateCell(newCellPosition);
-			}
-		}
-	}
-
-	private void GenerateCell(Vector2 newCellPosition)
-	{
-		var cell = random.Next(0, 2);
-		SetCellv(newCellPosition, cell);
-		UpdateBitmaskArea(newCellPosition);
-	}
-
-	private void GetAllNodeOnce()
-	{
-		camera = GetNode<Camera2D>("Camera2D");
-	}
+	
 
 	public void setResource(ResourceId resourceId, uint quantity)
 	{
@@ -223,13 +172,13 @@ public class Main : TileMap
 
 	public void onTimerTimeout()
 	{
-		for(uint i = 0; i < Resources.data.Length; i++)
+		for (uint i = 0; i < Resources.data.Length; i++)
 		{
 			var resource = Resources.data[i];
 
 			if (resource != null && resource.produced != 0)
 			{
-				if(resource.produced > 0)
+				if (resource.produced > 0)
 				{
 					addResource((ResourceId)i, (uint)resource.produced);
 				}
@@ -240,4 +189,11 @@ public class Main : TileMap
 			}
 		}
 	}
+
+
+	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
+	//  public override void _Process(float delta)
+	//  {
+	//      
+	//  }
 }

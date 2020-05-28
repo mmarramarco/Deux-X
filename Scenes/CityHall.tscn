@@ -4,7 +4,7 @@
 [ext_resource path="res://Scripts/Buildings/CityHall.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 24, 24 )
+extents = Vector2( 23, 23 )
 
 [node name="CityHall" type="Area2D"]
 script = ExtResource( 2 )

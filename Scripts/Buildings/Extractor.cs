@@ -11,13 +11,13 @@ public class Extractor : BuildingNode
 		
 	}
 
-	public override void build(Main main)
+	public override void build(Game game)
     {
-		base.build(main);
+		base.build(game);
 
-		main.subResource(ResourceId.Workers, 2);
-		main.addProduced(ResourceId.Electricity, -3);
-		main.addProduced(ResourceId.Water, 5);
+		game.subResource(ResourceId.Workers, 2);
+		game.addProduced(ResourceId.Electricity, -3);
+		game.addProduced(ResourceId.Water, 5);
     }
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

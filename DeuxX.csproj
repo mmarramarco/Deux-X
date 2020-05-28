@@ -66,9 +66,10 @@
     <Compile Include="Scripts\CameraHandler.cs" />
     <Compile Include="Scripts\Buildings\House.cs" />
     <Compile Include="Scripts\Buildings\Greenhouse.cs" />
+    <Compile Include="Scripts\Game.cs" />
     <Compile Include="Scripts\Hud\BuildingButton.cs" />
     <Compile Include="Scripts\Hud\ResourceNode.cs" />
-    <Compile Include="Scripts\Main.cs" />
+    <Compile Include="Scripts\World.cs" />
     <Compile Include="Scripts\DataModeles\Recipe.cs" />
     <Compile Include="Scripts\DataModeles\RecipeData.cs" />
     <Compile Include="Scripts\DataModeles\ResearchData.cs" />

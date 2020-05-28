@@ -13,12 +13,12 @@ public class CityHall : BuildingNode
 		
 	}
 
-	public override void build(Main main)
+	public override void build(Game game)
     {
-		base.build(main);
+		base.build(game);
 
-		main.addResource(ResourceId.Workers, 10);
-		main.addProduced(ResourceId.Electricity, 5);
+		game.addResource(ResourceId.Workers, 10);
+		game.addProduced(ResourceId.Electricity, 5);
     }
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.

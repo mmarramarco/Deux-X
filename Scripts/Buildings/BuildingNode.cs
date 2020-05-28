@@ -127,7 +127,7 @@ public abstract class BuildingNode : Area2D
 		sprite.Modulate = defaultColor;
 	}
 
-	public virtual void build(Main main)
+	public virtual void build(Game game)
     {
 		ChangeTransparency(1);
     }
