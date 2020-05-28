@@ -17,10 +17,17 @@ public abstract class BuildingNode : Area2D
 	private Color defaultColor;
 	private bool upgradeMode = false;
 
+	private bool contact = false;
+
     public Vector2 Offset { get; set; }
 
     [Signal]
 	private delegate void CanPlaceBuildingSignal(bool canPlace, int id);
+
+	public bool isInContact()
+    {
+		return contact;
+    }
 
 	public void Initialize()
 	{
@@ -62,7 +69,8 @@ public abstract class BuildingNode : Area2D
 	{
 		if(area is BuildingNode)
 		{
-			EmitSignal(nameof(CanPlaceBuildingSignal), false, GetInstanceId());
+			contact = true;
+			UpdateColorToRed();
 		}
 	}
 
@@ -70,7 +78,8 @@ public abstract class BuildingNode : Area2D
 	{
 		if (area is BuildingNode)
 		{
-			EmitSignal(nameof(CanPlaceBuildingSignal), true, GetInstanceId());
+			contact = false;
+			ResetColor();
 		}
 	}
 

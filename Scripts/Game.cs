@@ -91,7 +91,7 @@ public class Game : Node
 		var realPosition = world.MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
 		buildingToPlace.Position = realPosition;
 
-		if (canBuildHere)
+		if (!buildingToPlace.isInContact())
 		{
 			if (Input.IsActionJustPressed("ui_left_click"))
 			{
@@ -103,7 +103,6 @@ public class Game : Node
 	private void GenerateBuilding()
 	{
 		Connect(nameof(ShowBuildingSignal), buildingToPlace, "ShowBuilding");
-		buildingToPlace.Connect("CanPlaceBuildingSignal", this, nameof(CanPlaceBuilding));
 
 		buildingToPlace.build(this);
 
@@ -121,30 +120,6 @@ public class Game : Node
 		buildingToPlace = null;
 		currentMode = ManagementMode.CameraHandlingMode;
 	}
-
-	private void CanPlaceBuilding(bool canPlace, int id)
-	{
-		if (canPlace)
-		{
-			collidingWithAreaId.Remove(id);
-		}
-		else
-		{
-			collidingWithAreaId.Add(id);
-		}
-		canBuildHere = collidingWithAreaId.Count == 0;
-		if (canBuildHere)
-		{
-			buildingToPlace.ResetColor();
-			buildingToPlace.ChangeTransparency(0.75f);
-		}
-		else
-		{
-			buildingToPlace.UpdateColorToRed();
-		}
-	}
-
-	
 
 	public void setResource(ResourceId resourceId, uint quantity)
 	{
