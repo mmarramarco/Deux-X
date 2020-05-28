@@ -57,8 +57,8 @@ namespace DeuxX.Scripts
         public BuildingNode GetBuildingNode(BuildingId buildingId)
         {
             var buildingData = GetBuildingData(buildingId);
-            BuildingNode buildingNode = null;
-            
+            BuildingNode buildingNode;
+
             switch (buildingId)
             {
                 case BuildingId.CityHall:

@@ -4,16 +4,17 @@ using System;
 public class CameraHandler : Camera2D
 {
     [Export]
-    private float ZoomScaling = 0.1f;
+    private readonly float ZoomScaling = 0.1f;
     private Vector2 ZoomScalingVector;
     private Vector2 MinimalZoom = new Vector2(0.3f, 0.3f);
     private Vector2 MaximalZoom = new Vector2(1.5f, 1.5f);
-    private MouseState currentState = MouseState.Released;
+    public MouseState MouseState { get; private set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         ZoomScalingVector = new Vector2(ZoomScaling, ZoomScaling);
+        MouseState = MouseState.Released;
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -31,7 +32,7 @@ public class CameraHandler : Camera2D
                         CameraUnzoom();
                         break;
                     case ButtonList.Left:
-                        currentState = MouseState.Clicking;
+                        MouseState = MouseState.Clicking;
                         break;
                     default:
                         break;
@@ -40,13 +41,13 @@ public class CameraHandler : Camera2D
 
             if (mouseEvent.IsActionReleased("ui_left_click"))
             {
-                currentState = MouseState.Released;
+                MouseState = MouseState.Released;
             }
         }
 
         if (@event is InputEventMouseMotion mouseMotion)
         {
-            if(currentState == MouseState.Clicking)
+            if(MouseState == MouseState.Clicking)
             {
                 Position -= mouseMotion.Relative * Zoom;
             }

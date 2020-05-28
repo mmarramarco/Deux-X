@@ -11,11 +11,12 @@ public class Main : TileMap
 	public List<BuildingNode> Buildings = new List<BuildingNode>();
 
 	private Random random;
-	private Camera2D camera;
+	private CameraHandler camera;
 	private BuildingNode buildingToPlace = null;
 	private bool canBuildHere = true;
 	private List<int> collidingWithAreaId = new List<int>();
 	private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
+	private BuildingId currentlyBuilding;
 	private HUD hud;
 	private Buildings buildingsDataContainer = new Buildings();
 
@@ -71,6 +72,7 @@ public class Main : TileMap
 		buildingToPlace.Initialize();
 		AddChild(buildingToPlace);
 		currentMode = ManagementMode.BuildingMode;
+		currentlyBuilding = buildingId;
 	}
 
 	private void SwitchToUpgradeMode(bool toggle)
@@ -86,16 +88,22 @@ public class Main : TileMap
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
 		var tilePosition = WorldToMap(position);
-		var realPosition = MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
+		var realPosition = MapToWorld(tilePosition) + buildingToPlace.Offset;
 		buildingToPlace.Position = realPosition;
-
-		if (canBuildHere)
+		var mouseState = camera.MouseState;
+		GD.Print(mouseState.ToString());
+		if (canBuildHere &&
+			mouseState == MouseState.Clicking)
 		{
-			if (Input.IsActionJustPressed("ui_left_click"))
-			{
-				GenerateBuilding();
-			}
+			GenerateBuilding();
 		}
+		
+		
+	}
+
+	private void BuildTunnel()
+	{
+		
 	}
 
 	private void GenerateBuilding()
@@ -170,7 +178,7 @@ public class Main : TileMap
 
 	private void GetAllNodeOnce()
 	{
-		camera = GetNode<Camera2D>("Camera2D");
+		camera = GetNode<CameraHandler>("Camera2D");
 	}
 
 }
