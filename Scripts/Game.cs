@@ -22,11 +22,14 @@ public class Game : Node
 
 	private World world;
 
+	private YSort ysort;
+
 	public override void _Ready()
     {
 		camera = GetNode<Camera2D>("Camera2D");
 		world = GetNode<World>("World");
 		hud = GetNode<HUD>("CanvasLayer/HUD");
+		ysort = GetNode<YSort>("YSort");
 
 		world.GenerateStartingIsland();
         
@@ -69,7 +72,7 @@ public class Game : Node
 	{
 		buildingToPlace = Buildings.data[(uint)buildingId].scene.Instance() as BuildingNode;
 		buildingToPlace.Initialize();
-		AddChild(buildingToPlace);
+		ysort.AddChild(buildingToPlace);
 		currentMode = ManagementMode.BuildingMode;
 	}
 
@@ -84,9 +87,6 @@ public class Game : Node
 	{
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
-		
-		
-		
 		var tilePosition = world.WorldToMap(position);
 		var realPosition = world.MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
 		buildingToPlace.Position = realPosition;
