@@ -2,6 +2,7 @@ using Godot;
 using System;
 using DeuxX.Scripts;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Game : Node
 {
@@ -14,7 +15,7 @@ public class Game : Node
     public List<BuildingNode> buildingNodes = new List<BuildingNode>();
 
     private Camera2D camera;
-    private BuildingNode buildingToPlace = null;
+    private List<BuildingNode> buildingsToPlace = new List<BuildingNode>();
     private bool canBuildHere = true;
     private List<int> collidingWithAreaId = new List<int>();
     private ManagementMode currentMode = ManagementMode.CameraHandlingMode;
@@ -58,6 +59,15 @@ public class Game : Node
 			case ManagementMode.BuildingMode:
 				BuildingMode();
 				break;
+
+			case ManagementMode.BuildingTunnel0:
+				BuildingTunnel0();
+				break;
+
+			case ManagementMode.BuildingTunnel1:
+				BuildingTunnel1();
+				break;
+
 			default:
 				break;
 		}
@@ -70,10 +80,23 @@ public class Game : Node
 
 	private void StartBuilding(BuildingId buildingId)
 	{
-		buildingToPlace = Buildings.data[(uint)buildingId].scene.Instance() as BuildingNode;
+		var buildingToPlace = Buildings.data[(uint)buildingId].scene.Instance() as BuildingNode;
+		
 		buildingToPlace.Initialize();
 		ysort.AddChild(buildingToPlace);
-		currentMode = ManagementMode.BuildingMode;
+
+		buildingsToPlace.Add(buildingToPlace);
+
+		switch (buildingId)
+        {
+			case BuildingId.Tunnel:
+				currentMode = ManagementMode.BuildingTunnel0;
+				break;
+
+			default:
+				currentMode = ManagementMode.BuildingMode;
+				break;
+		}
 	}
 
 	private void SwitchToUpgradeMode(bool toggle)
@@ -83,13 +106,22 @@ public class Game : Node
 			building.SwitchToUpgradeMode(toggle);
 		}
 	}
-	private void BuildingMode()
-	{
+
+	private void buildingFollowCursor(BuildingNode building)
+    {
 		var viewport = GetViewport();
 		var position = (viewport.GetMousePosition() - viewport.Size / 2) * camera.Zoom + camera.Position;
 		var tilePosition = world.WorldToMap(position);
-		var realPosition = world.MapToWorld(tilePosition) + buildingToPlace.Offset; // building offset, TODO : make it prettier, and per building.
-		buildingToPlace.Position = realPosition;
+
+		var realPosition = world.MapToWorld(tilePosition) + building.Offset; // building offset, TODO : make it prettier, and per building.
+		building.Position = realPosition;
+	}
+
+	private void BuildingMode()
+	{
+		var buildingToPlace = buildingsToPlace.Last();
+
+		buildingFollowCursor(buildingToPlace);
 
 		if (!buildingToPlace.isInContact())
 		{
@@ -100,8 +132,45 @@ public class Game : Node
 		}
 	}
 
+	private void BuildingTunnel0()
+	{
+		var buildingToPlace = buildingsToPlace.Last();
+
+		buildingFollowCursor(buildingToPlace);
+
+		if (!buildingToPlace.isInContact())
+		{
+			if (Input.IsActionJustPressed("ui_left_click"))
+			{
+				var buildingToPlace1 = Buildings.data[(uint)BuildingId.Tunnel].scene.Instance() as BuildingNode;
+
+				buildingToPlace1.Initialize();
+				ysort.AddChild(buildingToPlace1);
+
+				buildingsToPlace.Add(buildingToPlace1);
+
+				currentMode = ManagementMode.BuildingTunnel1;
+			}
+		}
+	}
+
+	private void BuildingTunnel1()
+	{
+		var buildingToPlace = buildingsToPlace.Last();
+
+		buildingFollowCursor(buildingToPlace);
+
+		if (!buildingToPlace.isInContact())
+		{
+			GD.Print("Hello");
+		}
+	}
+
+
 	private void GenerateBuilding()
 	{
+		var buildingToPlace = buildingsToPlace.Last();
+
 		Connect(nameof(ShowBuildingSignal), buildingToPlace, "ShowBuilding");
 
 		buildingToPlace.build(this);
@@ -115,9 +184,14 @@ public class Game : Node
 	{
 		if (removeChild)
 		{
-			RemoveChild(buildingToPlace);
+			foreach(var buildingToPlace in buildingsToPlace)
+            {
+				ysort.RemoveChild(buildingToPlace);
+			}
 		}
-		buildingToPlace = null;
+
+		buildingsToPlace.Clear();
+
 		currentMode = ManagementMode.CameraHandlingMode;
 	}
 
