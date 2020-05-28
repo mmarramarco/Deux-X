@@ -147,8 +147,27 @@ public class Main : TileMap
 	private void GenerateStartingIsland()
 	{
 		Clear();
-		var startringPoint = new Vector2(0, 0);
-		GenerateIsland(startringPoint);
+
+		var noise = new OpenSimplexNoise();
+
+		noise.Seed = (int)GD.Randi();
+		noise.Octaves = 4;
+		noise.Period = 20;
+		noise.Persistence = 0.8f;
+
+		for (int i = 0; i < IslandSize; i++)
+		{
+			for (int j = 0; j < IslandSize; j++)
+			{
+				var pos = new Vector2(i, j);
+
+				SetCellv(pos, (int)Mathf.Lerp(0, 2, (noise.GetNoise2dv(pos)+1)/2) );
+				UpdateBitmaskArea(pos);
+			}
+		}
+
+		//var startringPoint = new Vector2(0, 0);
+		//GenerateIsland(startringPoint);
 	}
 
 	private void GenerateIsland(Vector2 newIslandCenter)
