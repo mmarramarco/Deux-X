@@ -162,6 +162,7 @@ public class Game : Node
 		buildingFollowCursor(buildingToPlaceLast);
 
 		//version crade a opti
+		//reutiliser les tunnels deja construit plutot que de les delete/new a chaque frame
 		if (buildingsToPlace.Count > 2)
 		{
 			foreach (var buildingNode in buildingsToPlace.GetRange(1, buildingsToPlace.Count - 2))
@@ -176,21 +177,70 @@ public class Game : Node
         {
 			int posXFirst = 0;
 			int posXLast = 0;
+			bool posXb = false;
 
 			if(buildingToPlaceFirst.Position.x < buildingToPlaceLast.Position.x)
             {
 				posXFirst = (int)buildingToPlaceFirst.Position.x + 16;
 				posXLast = (int)buildingToPlaceLast.Position.x;
+				posXb = true;
 
 			}
             else if(buildingToPlaceFirst.Position.x > buildingToPlaceLast.Position.x)
 			{
 				posXFirst = (int)buildingToPlaceLast.Position.x + 16;
 				posXLast = (int)buildingToPlaceFirst.Position.x;
+				posXb = true;
 			}
 
-			for (int i = posXFirst; i < posXLast; i += 16)
-			{
+            if (posXb)
+            {
+				for (int i = posXFirst; i < posXLast; i += 16)
+				{
+					var buildingToPlace1 = Buildings.data[(uint)BuildingId.Tunnel].scene.Instance() as BuildingNode;
+
+					buildingToPlace1.Initialize();
+					ysort.AddChild(buildingToPlace1);
+
+					buildingsToPlace.Insert(buildingsToPlace.Count - 1, buildingToPlace1);
+
+					buildingToPlace1.Position = new Vector2(i, buildingToPlaceFirst.Position.y);
+				}
+			}
+
+			int posYFirst = 0;
+			int posYLast = 0;
+			bool posYb = false;
+
+			if(buildingToPlaceFirst.Position.y < buildingToPlaceLast.Position.y)
+            {
+				posYFirst = (int)buildingToPlaceFirst.Position.y + 16;
+				posYLast = (int)buildingToPlaceLast.Position.y;
+				posYb = true;
+			}
+			else if(buildingToPlaceFirst.Position.y > buildingToPlaceLast.Position.y)
+            {
+				posYFirst = (int)buildingToPlaceLast.Position.y + 16;
+				posYLast = (int)buildingToPlaceFirst.Position.y;
+				posYb = true;
+			}
+
+            if (posYb)
+            {
+				for (int i = posYFirst; i < posYLast; i += 16)
+				{
+					var buildingToPlace1 = Buildings.data[(uint)BuildingId.Tunnel].scene.Instance() as BuildingNode;
+
+					buildingToPlace1.Initialize();
+					ysort.AddChild(buildingToPlace1);
+
+					buildingsToPlace.Insert(buildingsToPlace.Count - 1, buildingToPlace1);
+
+					buildingToPlace1.Position = new Vector2(buildingToPlaceLast.Position.x, i);
+				}
+			}
+
+			if(posXb && posYb){
 				var buildingToPlace1 = Buildings.data[(uint)BuildingId.Tunnel].scene.Instance() as BuildingNode;
 
 				buildingToPlace1.Initialize();
@@ -198,7 +248,7 @@ public class Game : Node
 
 				buildingsToPlace.Insert(buildingsToPlace.Count - 1, buildingToPlace1);
 
-				buildingToPlace1.Position = new Vector2(i, buildingToPlaceFirst.Position.y);
+				buildingToPlace1.Position = new Vector2(buildingToPlaceLast.Position.x, buildingToPlaceFirst.Position.y);
 			}
 		}
 
@@ -206,7 +256,7 @@ public class Game : Node
 		{
 			if (Input.IsActionJustPressed("ui_left_click"))
 			{
-				GD.Print("Hello");
+				GD.Print(buildingsToPlace.Count);
 			}
 		}
 	}
