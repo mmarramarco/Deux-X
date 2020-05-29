@@ -156,13 +156,58 @@ public class Game : Node
 
 	private void BuildingTunnel1()
 	{
-		var buildingToPlace = buildingsToPlace.Last();
+		var buildingToPlaceFirst = buildingsToPlace.First();
+		var buildingToPlaceLast = buildingsToPlace.Last();
 
-		buildingFollowCursor(buildingToPlace);
+		buildingFollowCursor(buildingToPlaceLast);
 
-		if (!buildingToPlace.isInContact())
+		//version crade a opti
+		if (buildingsToPlace.Count > 2)
 		{
-			GD.Print("Hello");
+			foreach (var buildingNode in buildingsToPlace.GetRange(1, buildingsToPlace.Count - 2))
+			{
+				ysort.RemoveChild(buildingNode);
+			}
+
+			buildingsToPlace.RemoveRange(1, buildingsToPlace.Count - 2);
+		}
+
+		if (buildingToPlaceFirst.Position.DistanceTo(buildingToPlaceLast.Position) > 16)
+        {
+			int posXFirst = 0;
+			int posXLast = 0;
+
+			if(buildingToPlaceFirst.Position.x < buildingToPlaceLast.Position.x)
+            {
+				posXFirst = (int)buildingToPlaceFirst.Position.x + 16;
+				posXLast = (int)buildingToPlaceLast.Position.x;
+
+			}
+            else if(buildingToPlaceFirst.Position.x > buildingToPlaceLast.Position.x)
+			{
+				posXFirst = (int)buildingToPlaceLast.Position.x + 16;
+				posXLast = (int)buildingToPlaceFirst.Position.x;
+			}
+
+			for (int i = posXFirst; i < posXLast; i += 16)
+			{
+				var buildingToPlace1 = Buildings.data[(uint)BuildingId.Tunnel].scene.Instance() as BuildingNode;
+
+				buildingToPlace1.Initialize();
+				ysort.AddChild(buildingToPlace1);
+
+				buildingsToPlace.Insert(buildingsToPlace.Count - 1, buildingToPlace1);
+
+				buildingToPlace1.Position = new Vector2(i, buildingToPlaceFirst.Position.y);
+			}
+		}
+
+		if (!buildingToPlaceLast.isInContact())
+		{
+			if (Input.IsActionJustPressed("ui_left_click"))
+			{
+				GD.Print("Hello");
+			}
 		}
 	}
 
